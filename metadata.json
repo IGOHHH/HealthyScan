@@ -1,0 +1,7 @@
+{
+  "name": "PureScan AI",
+  "description": "Scan beauty products, food, or medicines to instantly analyze their health impact, ingredients, and toxicity using Gemini 3. Join the community to rate and review products.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
