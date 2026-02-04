@@ -12,7 +12,7 @@ import {
   ThumbsUp,
   Sparkles
 } from 'lucide-react';
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { Cell, Pie, PieChart } from 'recharts';
 
 interface AnalysisViewProps {
   result: AnalysisResult;
@@ -86,22 +86,20 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({ result, image }) => 
 
               {/* Score Chart */}
               <div className="relative w-24 h-24 flex-shrink-0">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={data}
-                      innerRadius={35}
-                      outerRadius={45}
-                      startAngle={90}
-                      endAngle={-270}
-                      dataKey="value"
-                      stroke="none"
-                    >
-                      <Cell fill={result.healthScore >= 80 ? '#10b981' : result.healthScore >= 50 ? '#eab308' : '#f43f5e'} />
-                      <Cell fill="#e2e8f0" />
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+                <PieChart width={96} height={96}>
+                  <Pie
+                    data={data}
+                    innerRadius={35}
+                    outerRadius={45}
+                    startAngle={90}
+                    endAngle={-270}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    <Cell fill={result.healthScore >= 80 ? '#10b981' : result.healthScore >= 50 ? '#eab308' : '#f43f5e'} />
+                    <Cell fill="#e2e8f0" />
+                  </Pie>
+                </PieChart>
                 <div className="absolute inset-0 flex items-center justify-center flex-col">
                   <span className={`text-2xl font-bold ${getScoreColor(result.healthScore)}`}>
                     {result.healthScore}
