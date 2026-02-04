@@ -1,9 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult, HealthRating, ProductCategory } from "../types";
 
-// Initialize Gemini Client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const analysisSchema = {
   type: Type.OBJECT,
   properties: {
@@ -37,6 +34,14 @@ const analysisSchema = {
 };
 
 export const analyzeProductImage = async (base64Image: string): Promise<AnalysisResult> => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key is missing. Please check your app configuration.");
+  }
+
+  // Initialize client lazily to ensure apiKey is available
+  const ai = new GoogleGenAI({ apiKey });
+
   try {
     // Extract MIME type and clean base64 data
     let mimeType = "image/jpeg";
@@ -88,8 +93,9 @@ export const analyzeProductImage = async (base64Image: string): Promise<Analysis
     if (!text) throw new Error("No response from Gemini");
     
     return JSON.parse(text) as AnalysisResult;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini Analysis Error:", error);
-    throw new Error("Failed to analyze product. Please try again with a clearer image.");
+    const msg = error.message || "Failed to analyze product.";
+    throw new Error(msg.includes("API Key") ? msg : "Failed to analyze product. Please try again with a clearer image.");
   }
 };
