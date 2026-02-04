@@ -38,8 +38,23 @@ const analysisSchema = {
 
 export const analyzeProductImage = async (base64Image: string): Promise<AnalysisResult> => {
   try {
-    // Remove header if present (e.g., "data:image/jpeg;base64,")
-    const cleanBase64 = base64Image.split(',')[1] || base64Image;
+    // Extract MIME type and clean base64 data
+    let mimeType = "image/jpeg";
+    let cleanBase64 = base64Image;
+
+    if (base64Image.includes(";base64,")) {
+      const parts = base64Image.split(";base64,");
+      if (parts.length === 2) {
+        cleanBase64 = parts[1];
+        const prefix = parts[0]; // e.g., "data:image/png"
+        if (prefix.startsWith("data:")) {
+          mimeType = prefix.substring(5);
+        }
+      }
+    } else {
+        // Fallback for raw base64 without header
+        cleanBase64 = base64Image;
+    }
 
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
@@ -47,7 +62,7 @@ export const analyzeProductImage = async (base64Image: string): Promise<Analysis
         parts: [
           {
             inlineData: {
-              mimeType: "image/jpeg",
+              mimeType: mimeType,
               data: cleanBase64
             }
           },
