@@ -1,14 +1,10 @@
-import { defineConfig, loadEnv } from 'vite';
+
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, (process as any).cwd(), '');
-  return {
-    plugins: [react()],
-    define: {
-      // Prioritize .env file, fallback to system env (Netlify), then empty string to prevent crash
-      'process.env.API_KEY': JSON.stringify(env.API_KEY || process.env.API_KEY || '')
-    }
-  };
+export default defineConfig({
+  plugins: [react()],
+  // Manual definition of process.env.API_KEY and loadEnv call removed to fix process.cwd() error 
+  // and follow Gemini API guidelines to assume API_KEY is pre-configured.
 });
