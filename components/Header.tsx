@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
             <Scan className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 leading-none">PureScan AI</h1>
+            <h1 className="text-xl font-bold text-slate-900 leading-none">PureLens</h1>
             <p className="text-xs text-slate-500 font-medium">Scan. Analyze. Live Healthy.</p>
           </div>
         </div>

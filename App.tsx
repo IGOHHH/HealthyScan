@@ -132,7 +132,7 @@ export default function App() {
       </main>
 
       <footer className="bg-white border-t border-slate-100 py-8 text-center text-slate-400 text-sm">
-        <p>&copy; {new Date().getFullYear()} PureScan AI. Powered by Google Gemini.</p>
+        <p>&copy; {new Date().getFullYear()} PureLens. Powered by Google Gemini.</p>
       </footer>
     </div>
   );
